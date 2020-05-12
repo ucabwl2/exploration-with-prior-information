@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<launch>
+
+  <include file="$(find tracker_mpc)/launch/tracker_online.launch"/>
+
+  <node pkg="smokebot_motion_planner" type="get_path_service" name="get_path_service" output="screen">
+    <param name="model" value="taurob_tracker_8_8_2.0_0.2_2.0.reduced"/>
+    <param name="motion_primitives_directory" value="$(find smokebot_motion_planner)/Primitives/" />
+    <param name="lookup_tables_directory" value="$(find smokebot_motion_planner)/LookupTables/" /> 
+    <param name="min_incr_path_dist" value="0.2" />
+    <param name="visualize" value="true" />
+  </node>
+
+  <node pkg="smokebot_constraint_extract" type="polygonconstraint_service" name="polygonconstraint_service" output="screen">
+    <param name="load_type" value="1" />
+    <param name="model_type" value="6" />
+    <param name="visualize" value="false" />
+    <param name="save_constraints_and_path" value="true" />
+    <param name="lookuptables_file" value="$(find smokebot_constraint_extract)/tables/service_lookup_model6load1.dat" />
+    <param name="visualize_outer_constraints" value="false" />
+    <param name="visualize_only_invalid" value="false" />
+    <param name="skip_overlap" value="true" />
+    <param name="save_lookuptables" value="false" />
+  </node>  
+
+  <node pkg="smokebot_path_smoother" type="smoothed_path_service" name="smoothed_path_service" output="screen">
+    <param name="visualize" value="true" />
+    <param name="visualize_deep" value="false" />
+    <param name="wheel_base" value="0.36" />
+    <param name="minimize_phi_and_dist" value="true" />
+    <param name="init_controls" value="true" />
+    <param name="use_th_constraints" value="true" />
+    <param name="use_xy_constraints" value="true" />
+    <param name="phi_min" value="-1.25" />
+    <param name="phi_max" value="1.25" />
+    <param name="reassign_constraints" value="true" />
+    <param name="reassign_iters" value="1" />
+    <param name="reassign_min_distance" value="0.1" />
+  </node>  
+
+  <node pkg="smokebot_vehicle_execution" type="smokebot_vehicle_execution_node" name="smokebot_vehicle_execution_node" output="screen">
+    <param name="visualize" value="true" />
+    <param name="max_tracking_error" value="-1." />
+    <param name="use_forks" value="false" />
+    <param name="visualize_sweep_and_constraints" value="false" />
+    <param name="draw_sweep_area" value="false" />
+    <param name="start_driving_after_recover" value="false"/>
+    <param name="max_vel" value="0.1" />
+    <param name="max_rotational_vel" value="0.1" />
+    <param name="max_acc" value="0.1" />
+    <param name="time_step" value="0.04" />
+<!--     <remap from="/map" to="/gdim_visualization/fused_costmap"/> -->
+  </node>
+
+  <node pkg="smokebot_vehicle_execution" type="point_n_click_target_client" name="smokebot_point_n_click_target_client" output="screen">
+    <rosparam param="robot_ids">[1]</rosparam>
+  </node>
+
+  <node pkg="smokebot_coordinator_fake" type="coordinator_fake_node" name="coordinator_fake_node" output="screen">
+    <param name="use_ct" value="false"/>
+  </node>
+
+  <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find smokebot_launch)/rviz/smokebot_online.rviz"/--> 
+
+</launch>
+

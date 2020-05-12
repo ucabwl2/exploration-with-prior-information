@@ -1,0 +1,3 @@
+dataset=volvo_2017_12_01
+roslaunch graph_map visualize_graph_fuser.launch localization:=true $dataset:=true &
+rosrun graph_localization graph_localization_offline  --map-switching-method closest_observation --forceSIR --n-particles 1000  --tf-base-link /EKF --tf-gt-link /EKF --localisation-algorithm-name mcl_ndt --skip-frame 1 --z-filter-height -1000000 --base-name mcl-ndt --bag-file-path /mnt/storage/volvo/finished/data/volvo_2017_12_01_S4_fixed/mapping/2017-12-01-11-15-55_0-3.bag --map-file-path /home/daniel/.ros/maps/volvo/submap_sc_06_half.map --data-set $dataset --velodyne-config-file  "$(rospack find graph_map)/config/64e_utexas.yaml"   --visualize --min-range 3 #--save-results

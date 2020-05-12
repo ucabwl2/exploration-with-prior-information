@@ -1,0 +1,208 @@
+stages:
+  - dev-build
+  - night-build
+  - night-build-publish
+  - release-build
+  - release-build-publish
+
+###################################################################      
+# Ubuntu 16.04
+ubuntu-xenial-test:
+  image: ubuntu:xenial
+  variables:
+    CI_ROS_DISTRO: kinetic
+    UBUNTU_DISTRO: xenial
+    GIT_STRATEGY: clone
+    
+  before_script:
+    - echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+    - apt-get update
+    - apt-get install -qq -y apt-transport-https sed wget unzip > /dev/null
+    - source .gitlab-ci/prepare.sh
+    - chmod +x setup.sh
+    - ./setup.sh $UBUNTU_DISTRO $CI_ROS_DISTRO > /dev/null
+    - setup_apt ${UBUNTU_DISTRO}
+    - apt-get install -qq -y python-catkin-tools > /dev/null
+    - rosdep update 2> /dev/null
+    - add_aass_yaml
+    - rosdep install --from-paths . -i -y -r --rosdistro $CI_ROS_DISTRO 2> /dev/null
+
+
+  stage: dev-build
+  script:
+    - old_dir=`pwd`
+    - mkdir -p /tmp/src
+    - cp  -r * /tmp/src/
+    - cd /tmp/
+    - source /opt/ros/${CI_ROS_DISTRO}/setup.sh
+    - catkin init
+    - catkin build
+    - cd $old_dir
+    - rm -rf /tmp/src
+
+###################################################################
+# Ubuntu 16.04 debian package generation
+ubuntu-xenial-build-package-nightbuild:
+  image: ubuntu:xenial
+  variables:
+    CI_ROS_DISTRO: kinetic
+    UBUNTU_DISTRO: xenial
+    GIT_STRATEGY: clone
+    
+  before_script:
+    - echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+    - echo $CI_ROS_DISTRO
+    - echo ${CI_ROS_DISTRO}
+    - apt-get update
+    - apt-get install -qq -y apt-transport-https sed wget unzip > /dev/null
+    - source .gitlab-ci/prepare.sh
+    - chmod +x setup.sh
+    - ./setup.sh $UBUNTU_DISTRO $CI_ROS_DISTRO > /dev/null
+    - setup_apt ${UBUNTU_DISTRO}
+    - apt-get install -q -y python-bloom devscripts debhelper > /dev/null
+    - apt-get install -f -y  > /dev/null
+    - rosdep update 2> /dev/null
+    - add_aass_yaml
+    - rosdep install --from-paths . -i -y -r --rosdistro $CI_ROS_DISTRO  2> /dev/null
+
+
+  stage: night-build
+  script:
+    - ls *
+    - rm -rf build
+    - source .gitlab-ci/release.sh
+    - show_info
+    - mkdir .build
+    - release_package
+    - mv .build build
+    
+  when: on_success
+# The files which are to be made available in GitLab
+  artifacts:
+    paths:
+      - build/*
+
+
+  
+###################################################################
+# put code to public reposiotry - night build
+git-push-public-night-build:
+  image: ubuntu:xenial
+  variables:
+    CI_ROS_DISTRO: kinetic
+    UBUNTU_DISTRO: xenial
+    GIT_STRATEGY: clone
+    PUBLIC_REPO: git@gitsvn-nt.oru.se:software/ndt_core_public.git
+    
+  stage: night-build-publish
+  
+  when: on_success
+  except:
+    - tags
+  only:
+    - branches@software/ndt_core
+  
+  before_script:
+   - apt-get update
+   - apt-get install -f -y  > /dev/null
+   - apt-get install -y git > /dev/null
+
+  script:
+    # Install ssh-agent through openssh-client if not present
+    - 'which ssh-agent || ( apt-get update -qy && apt-get install openssh-client -qqy )'
+    # Add the private key to this user
+    - eval $(ssh-agent -s) && ssh-add <(echo "$SSH_PRIVATE_KEY") && mkdir -p ~/.ssh
+    # Docker specific settings
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    # Config git to avoid first usage questions. Set the identity
+    - git config --global user.email "gitlab-ci@oru.se" && git config --global user.name "gitlab-ci"
+    #
+    # Do Git stuff, for example:
+    #
+    - 'git config remote.public.url > /dev/null && echo "git public" || ( git remote add public $PUBLIC_REPO )'
+    - git push public master
+    # - git push -u public --tags
+
+  
+###################################################################
+# Ubuntu 16.04 debian package generation
+ubuntu-xenial-build-package-release:
+  image: ubuntu:xenial
+  variables:
+    CI_ROS_DISTRO: kinetic
+    UBUNTU_DISTRO: xenial
+    GIT_STRATEGY: clone
+    
+  before_script:
+    - echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+    - echo $CI_ROS_DISTRO
+    - echo ${CI_ROS_DISTRO}
+    - apt-get update
+    - apt-get install -qq -y apt-transport-https sed wget unzip > /dev/null
+    - source .gitlab-ci/prepare.sh
+    - chmod +x setup.sh
+    - ./setup.sh $UBUNTU_DISTRO $CI_ROS_DISTRO > /dev/null
+    - setup_apt ${UBUNTU_DISTRO}
+    - apt-get install -q -y python-bloom devscripts debhelper > /dev/null
+    - apt-get install -f -y  > /dev/null
+    - rosdep update 2> /dev/null
+    - add_aass_yaml
+    - rosdep install --from-paths . -i -y -r --rosdistro $CI_ROS_DISTRO  2> /dev/null
+
+
+  stage: release-build
+  script:
+    - ls *
+    - rm -rf build
+    - source .gitlab-ci/release.sh
+    - show_info
+    - mkdir .build
+    - release_package
+    - mv .build build
+    
+  only:
+    - tags
+  when: on_success
+  
+# The files which are to be made available in GitLab
+  artifacts:
+    paths:
+      - build/*
+###################################################################
+# put code to public reposiotry - release build
+git-push-public-release-build:
+  image: ubuntu:xenial
+  variables:
+    CI_ROS_DISTRO: kinetic
+    UBUNTU_DISTRO: xenial
+    GIT_STRATEGY: clone
+    PUBLIC_REPO: git@gitsvn-nt.oru.se:software/ndt_core_public.git
+    
+  stage: release-build-publish
+  
+  when: on_success
+  only:
+    - tags@software/ndt_core
+  
+  before_script:
+   - apt-get update
+   - apt-get install -f -y  > /dev/null
+   - apt-get install -y git > /dev/null
+
+
+  script:
+    # Install ssh-agent through openssh-client if not present
+    - 'which ssh-agent || ( apt-get update -qy && apt-get install openssh-client -qqy )'
+    # Add the private key to this user
+    - eval $(ssh-agent -s) && ssh-add <(echo "$SSH_PRIVATE_KEY") && mkdir -p ~/.ssh
+    # Docker specific settings
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    # Config git to avoid first usage questions. Set the identity
+    - git config --global user.email "gitlab-ci@oru.se" && git config --global user.name "gitlab-ci"
+    #
+    # Do Git stuff, for example:
+    #
+    - ' git config remote.public.url > /dev/null && echo "git public" || ( git remote add public $PUBLIC_REPO ) '
+    # - git push -u public --all
+    - git push public --tags
+

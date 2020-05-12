@@ -1,0 +1,4 @@
+dataset=michigan
+roslaunch graph_map visualize_graph_fuser.launch localization:=true $dataset:=true &
+rosrun graph_localization graph_localization_offline --map-switching-method closest_observation --n-particles 450 --forceSIR --tf-base-link /odom_base_link  --localisation-algorithm-name mcl_ndt --skip-frame 1 --z-filter-height -1000000 --base-name mcl-ndt --bag-file-path /mnt/data_disc/bag/michigan/2012-01-08_vel_odom.bag_edited.bag --map-file-path /home/daniel/.ros/maps/offmichigan_gt=0_submap=0_sizexy=150_Z=15_intrchR=15_compR=10_res=0.6_maxSensd=130_keyF=1_d=0.05_deg=2_alpha=0_dl=0_xyzir=0_mpsu=0_mnpfg=6kmnp0.map --data-set $dataset --velodyne-config-file  "$(rospack find graph_map)/config/velo32.yaml"   --visualize --min-range 3 --lidar-topic /velodyne_points #--save-results
+#reg_localisation_type

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!--<node pkg="auto_complete_graph" type="acg_node_review" name="acg_node_review" output="screen"/>-->
+    <include file="$(find ndt_feature)/malcolm_addons/launch/gustav_review_tf.launch"/>
+
+<!--ADD smokebot_demo and check the readme-->
+	<include file="$(find smokebot_launch)/launch/point_n_click_online.launch"/>
+
+<!--ADD Laser-->
+	<node pkg="navigation_sensor_fusion_luh" type="virtual2DScans_node" name="virtual2DScans_node">
+		<param name="planar_points"  value="60"/> <!-- min number of points on a line -->
+		<param name="maxIterations"   value="1000"/> <!-- number of ransac iterations -->
+		<param name="distanceThreshold"   value="0.025"/> <!-- distance betwen points and line -->
+		<param name="nr_points_factor"   value="0.3"/> <!-- do ransac until 30% of cloud points -->
+		<param name="virtual_2d_scan"   value="true"/>
+		<param name="room_height_max"   value="1.25"/> <!-- regarding the center of the velodyne -->
+		<param name="room_height_min"   value="-0.25"/> <!-- regarding the center of the velodyne -->
+		<param name="object_height_max"   value="0.25"/> <!-- regarding the center of the velodyne -->
+		<param name="object_height_min"   value="-0.25"/> <!-- regarding the center of the velodyne -->
+		<param name="max_point_range"   value="20.0"/> <!-- regarding the center of the velodyne -->
+	</node>
+
+</launch>

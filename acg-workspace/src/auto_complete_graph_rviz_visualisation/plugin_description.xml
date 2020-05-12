@@ -1,0 +1,11 @@
+<library path="lib/libauto_complete_graph_rviz_visualisation">
+  <class name="auto_complete_graph_rviz_visualisation/ACGMapsDisplay"
+         type="AASS::acg::ACGMapsDisplay"
+         base_class_type="rviz::Display">
+    <description>
+      Displays ACG maps
+    </description>
+    <message_type>ndt_map/NDTVectorMapMsg</message_type>
+  </class>
+
+</library>

@@ -1,0 +1,29 @@
+<library path="lib/libndt_rviz">
+  <class name="ndt_rviz/NDT"
+         type="perception_oru::NDTDisplay"
+         base_class_type="rviz::Display">
+    <description>
+      Displays elipsoids representing ndt map.
+    </description>
+    <message_type>ndt_map/NDTMapMsg</message_type>
+  </class>
+
+  <class name="ndt_rviz/NDTLine"
+         type="perception_oru::NDTLineDisplay"
+         base_class_type="rviz::Display">
+    <description>
+      Displays lines representing ndt map.
+    </description>
+    <message_type>ndt_map/NDTMapMsg</message_type>
+  </class>
+
+  <class name="ndt_rviz/NDTVectorMap"
+         type="perception_oru::ndt_rviz::NDTVectorMapDisplay"
+         base_class_type="rviz::Display">
+    <description>
+      Displays vectors of ndt maps.
+    </description>
+    <message_type>ndt_map/NDTVectorMapMsg</message_type>
+  </class>
+
+</library>

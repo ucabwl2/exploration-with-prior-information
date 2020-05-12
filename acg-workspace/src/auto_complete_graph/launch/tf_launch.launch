@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<launch>
+
+
+
+<node pkg="tf" type="static_transform_publisher" name="iliad_laser_frame" args="0 0 0 0 0 0 /base_link /robot3/laser2d_floor_link 10"/>
+<node pkg="auto_complete_graph" type="publish_odom_to_tf" name="publish_odometry_to_tf" />
+
+
+
+<node pkg="auto_complete_graph" type="graph_map_publisher_localization_ac" name="graph_node" output="screen">
+
+<!-- 	MCL -->
+	<param name="use_mcl" value="true" />
+    <param name="use_graph_map_registration" value="true" />
+    <param name="zfilter_min" value="-1000" />
+    <param name="fraction" value="1" />
+    <param name="cutoff" value="-10" />
+    <param name="init_var" value="1" />
+    <param name="scale_gaussian_mcl" value="0.05" />
+    <param name="cell_neighborhood_size_mcl_in_meters" value="1.5" />
+    <param name="use_euclidean_mcl" value="false" />
+    <param name="use_mean_score_mcl" value="false" /> <!-- GET STUCK IF TRUE AND DON'T USE EUCLIDEAN :( -->
+    <param name="use_euclidean_for_long_distances" value="false" />
+    <param name="use_hybrid_strategy_mcl" value="true" />
+
+	<param name="cov_x_mcl" value="0.5" />
+	<param name="cov_y_mcl" value="0.5" />
+	<param name="cov_yaw_mcl" value="0.25" />
+	<param name="scale_gaussian_mcl" value="0.005" />
+
+<!-- 		Fuser param -->
+      <param name="use_keyframe" value="true" />
+      <param name="min_keyframe_dist" value="0.2" />
+      <param name="min_keyframe_rot_deg" value="5.0" />
+
+
+
+      <param name="rendermap" value="true" />
+      <param name="gt_topic" value="/odom" />
+      <param name="initPoseFromGT" value="false" />
+      <param name="plot_marker" value="point" />
+
+      <param name="map_type" value="ndt_map" />
+      <param name="registration_type" value="ndt_d2d_reg" />
+
+      <param name="use_submap" value="true" />
+<!-- 	  How far to travel before new node -->
+      <param name="interchange_radius" value="2" />
+<!-- 	  Move ndt cell close to new submap from old to new -->
+      <param name="compound_radius" value="0.5" />
+
+      <param name="enable_registration" value="true" />
+      <param name="registration_2D" value="true" />
+      <param name="enable_mapping" value="true" />
+
+      <param name="check_consistency" value="true" />
+      <param name="publisher_timer" value="true" />
+      <param name="tf_pose_frame" value="" />
+
+
+      <param name="init_pose_tf" value="true" />
+      <param name="robot_frame" value="/base_link" />
+      <param name="world_frame" value="/odom" />
+      <param name="map_frame" value="/map" />
+      <param name="laser_frame_id" value="/robot3/laser2d_floor_link" />
+
+      <param name="matchLaser" value="true" />
+      <param name="laser_topic" value="/robot3/sensors/laser2d_floor" />
+<!--       <param name="points_topic" value="/velodyne_points" /> -->
+
+      <param name="useOdometry" value="true" />
+      <param name="odometry_topic" value="/robot3/control/odom" />
+      <param name="use_tf_listener" value="false" />
+
+      <param name="max_translation_norm" value="0.4" />
+      <param name="max_rotation_norm" value="0.78539816339" />
+
+      <param name="size_x_qmeters" value="120" />
+      <param name="size_y_meters" value="120" />
+      <param name="size_z_meters" value="10" />
+
+      <param name="resolution" value="0.5" />
+      <!--<param name="laser_variance_z" value="0.02" /> -->
+      <param name="sensor_range" value="30." />
+      <param name="min_laser_range" value="0.1" />
+
+      <!-- Specific sensor offset parameters for the example file -->
+      <param name="sensor_pose_x" value="0.3" />
+      <param name="sensor_pose_y" value="0.00" />
+      <param name="sensor_pose_z" value="1.3" />
+      <param name="sensor_pose_t" value="-1.62" />
+      <param name="sensor_offset_t" value="0.025" />
+
+      <param name="pose_init_x" value="10.73" />
+      <param name="pose_init_y" value="2.185" />
+      <param name="pose_init_t" value="0.02" />
+
+      <param name="map_directory" value="$(find graph_map)/maps" />
+
+      <param name="visualize" value="true" />
+
+
+	  <param name="size_x_meters" value="100"/>
+      <param name="size_y_meters" value="100"/>
+      <param name="size_z_meters" value="1"/>
+<!-- 		match2d = 1; //false -->
+<!-- 		beHMT = 0; //false -->
+<!-- 		resolution_local_factor = 1.; -->
+<!-- 		use_odometry = true; -->
+<!-- 		use_multires = 0; -->
+<!-- 		sensor_cutoff = 30; -->
+<!-- 		step_control = true; -->
+		<param name="motion_params_Cd" value="1" />
+		<param name="motion_params_Ct" value="1" />
+		<param name="motion_params_Dd" value="1" />
+		<param name="motion_params_Dt" value="1" />
+		<param name="motion_params_Td" value="10"/>
+		<param name="motion_params_Tt" value="10"/>
+
+
+
+
+
+  </node>
+
+
+
+</launch>

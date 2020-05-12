@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="tobot">
+
+  <!-- Constant for the xacro model -->
+
+  <xacro:property name="GROUND_CLEARANCE" value="0.2" />
+  <xacro:property name="width" value="0.285" />
+  <xacro:property name="bodylen" value="0.355" />
+  <xacro:property name="wheel_w" value="0.039" />
+  <xacro:property name="wheel_rad" value="0.075" />
+  <xacro:property name="plat_rad" value="0.285" />
+  <xacro:property name="plat_len" value="0.005" />
+  <xacro:property name="HIGH_PLATFORM" value="0.15" />
+  <xacro:property name="posz_laser" value="0.285" />
+  <xacro:property name="posz_camera" value="0.5" />
+  <xacro:property name="fwheel_rad" value="0.0325" />
+  <xacro:property name="radar_w" value="0.2" />
+  <xacro:property name="radar_rad" value="0.1" />
+  <xacro:property name="radar_up_base_laser_link" value="0.25" />
+  <xacro:property name="radar_to_velodyne" value="0.255" />
+  <xacro:property name="PI" value="3.1415" />
+  <xacro:property name="radar_roll" value="3.1415" />
+  <xacro:property name="radar_pitch" value="0" />
+  <xacro:property name="radar_yaw" value="-0.1" />
+  <xacro:property name="velodyne_roll" value="3.1415" />
+  <xacro:property name="velodyne_pitch" value="3.1415" />
+  <xacro:property name="velodyne_yaw" value="0" />
+
+  <material name="black">
+    <color rgba="0 0 0 1"/>
+  </material>
+
+  <material name="red">
+    <color rgba="1 0 0 1"/>
+  </material>
+
+
+  <!-- Actual frame and materials -->
+
+<!--  <link name="base_laser_link">
+    <visual>
+      <geometry>
+         <cylinder length="${bodylen}" radius="${width}"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 ${GROUND_CLEARANCE}"/>
+      <material name="blue">
+        <color rgba="0 0.2 0.4 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+         <cylinder length="${bodylen}" radius="${width}"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 ${bodylen/2}"/>
+    </collision>
+  </link>-->
+
+
+
+  <link name="base_laser_link">
+    <visual>
+      <geometry>
+		<cylinder length="${radar_w}" radius="${radar_rad}"/>
+      <origin rpy="-1.57075 0 0" xyz="0 0 0"/>
+      <material name="red"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="red"/>
+    </visual>
+  </link>
+
+  <!--LASER-->
+  <link name="laser_frame">
+    <visual>
+      <geometry>
+		<cylinder length="${radar_w}" radius="${radar_rad}"/>
+      <origin rpy="-1.57075 0 0" xyz="0 0 0"/>
+      <material name="black"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="red"/>
+    </visual>
+  </link>
+
+  <joint name="base_laser" type="fixed">
+    <parent link="base_laser_link"/>
+    <child link="laser_frame"/>
+    <origin xyz="0 0 ${radar_up_base_laser_link}" rpy="${radar_roll} ${radar_pitch} ${radar_yaw}"/>
+  </joint>
+
+  <!--VELODYNE-->
+  <link name="velodyne">
+    <visual>
+      <geometry>
+		<cylinder length="${radar_w}" radius="${radar_rad}"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="black"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="blue"/>
+    </visual>
+  </link>
+
+  <joint name="velodyne_joint" type="fixed">
+    <parent link="base_laser_link"/>
+    <child link="velodyne"/>
+    <origin xyz="0 0 ${radar_up_base_laser_link + radar_to_velodyne}" rpy="${velodyne_roll} ${velodyne_pitch} ${velodyne_yaw}"/>
+  </joint>
+  
+</robot>
