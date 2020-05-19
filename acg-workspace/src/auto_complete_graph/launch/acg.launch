@@ -42,6 +42,8 @@
 	<param name="euclidean_dist_occ_map" value="false" />
 
     <remap from="acg_node_localization/prior_ndt" to ="/ndt_map_init_mcl"/>
+	<remap from="acg_node_localization/acg_maps" to  ="/acg_maps"/>
+
  <!-- /auto_complete_graph_rviz_small_optimi -->
 	<!--<param name="min_val_cov_ndt_cell" value="1" />-->
 	<param name="min_corner_ndt_cell_distance" value="0.1" />
