@@ -26,3 +26,12 @@ Note that I could not get `catkin build` to work - the dependencies weren't proc
 
 The package includes a local version of velodyne. You need to uninstall the velodyne package from your ROS_DISTRO.
 
+
+
+--Suitsparse package:
+
+While building the dependency such as g2o, if you see any error related to missing `cs.h`, you probably need to install suitsparse package:
+
+```
+sudo apt-get install libsuitesparse-dev
+```
