@@ -33,5 +33,11 @@ The package includes a local version of velodyne. You need to uninstall the velo
 While building the dependency such as g2o, if you see any error related to missing `cs.h`, you probably need to install suitsparse package:
 
 ```
-sudo apt-get install libsuitesparse-dev
+sudo apt install libsuitesparse-dev
+```
+
+If you are missing `pcap.h` you'll need to install the libpcap library
+
+```
+sudo apt install libpcap-dev
 ```
