@@ -60,3 +60,8 @@ sudo apt install libpcap-dev
    ACG intercepts the clicks to define the polygon for exploration
    bounds.)
 8. If there is trouble with tfs and timestamps, try `rosparam set use_sim_time false` and restart from point 2.
+
+
+# Running m-explore
+1. move this file to husky_workspace/src
+'roslaunch explore_lite explore.launch' (for running explore_lite, it will stop when it detects the target cell)
