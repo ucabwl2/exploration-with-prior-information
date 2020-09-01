@@ -53,7 +53,18 @@ namespace AASS {
 			 * @brief register a point from either the prior or the robot map. Start with the prior
 			 */
 			virtual void clicked(const geometry_msgs::PointStamped::ConstPtr& msg){
+
+				static int clicked_count = 0;
+				clicked_count++;
+					
 				std::cout << "Clicked !!! " << _flag_go << std::endl;
+
+				if (clicked_count > 4)
+				{
+					std::cout << "RvizPointsLocalization received click, but already initialised\n"; 
+					return;
+				}
+				
 				cv::Point2f point(msg->point.x, msg->point.y);
 
 				if(_flag_go == false){
@@ -117,6 +128,7 @@ namespace AASS {
 
 			}
 
+			
 		};
 	}
 

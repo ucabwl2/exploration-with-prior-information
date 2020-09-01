@@ -12,9 +12,7 @@
 	
 <include file="$(find gustav_scripts)/URDF/urdf_basement.launch"/>
 	
-<node pkg="tf" type="static_transform_publisher" name="world_odom_frame" args="0 0 0 0 0 0 /world /odom 10"/>
-<!-- <node pkg="tf" type="static_transform_publisher" name="world_laser_frame_frame" args="1 -50 0 0 0 0 /world /base_link_tmp 10"/> -->
-<!-- <node pkg="tf" type="static_transform_publisher" name="world_laser_frame_frame_frame" args="0 0 0 0 0 0 /base_link_tmp /laser_frame_tmp 10"/> -->
+<!-- <node pkg="tf" type="static_transform_publisher" name="world_odom_frame" args="0 0 0 0 0 0 /world /odom 10"/> --> <!-- disabled by Martin to fix tf publish conflict with xx --> 
 
 <node pkg="auto_complete_graph" type="graph_map_publisher_localization_ac" name="graph_node" output="screen">
 
@@ -45,7 +43,7 @@
 	  
 	  
       <param name="rendermap" value="true" />
-      <param name="gt_topic" value="/odom" />
+      <param name="gt_topic" value="/base_link" /> <!-- was /odom -->
       <param name="initPoseFromGT" value="false" />
       <param name="plot_marker" value="point" />
 
@@ -68,15 +66,15 @@
 	  
       <param name="init_pose_tf" value="true" />
       <param name="robot_frame" value="/base_link" />
-      <param name="world_frame" value="/world" />
-      <param name="laser_frame_id" value="/velodyne" />
+      <param name="world_frame" value="/world" /> 
+      <param name="laser_frame_id" value="/base_laser" /> <!-- was   /velodyne -->
 
       <param name="matchLaser" value="true" />
-      <param name="laser_topic" value="/laser_scan_with_ransac" />
+      <param name="laser_topic" value="/scan" />     <!-- was /laser_scan_with_ransac -->
 <!--       <param name="points_topic" value="/velodyne_points" /> -->
 
       <param name="useOdometry" value="true" />
-      <param name="odometry_topic" value="/odom" />
+      <param name="odometry_topic" value="/husky_velocity_controller/odom" /> <!-- was /odom -->
       <param name="use_tf_listener" value="false" />
 
       <param name="max_translation_norm" value="0.4" />

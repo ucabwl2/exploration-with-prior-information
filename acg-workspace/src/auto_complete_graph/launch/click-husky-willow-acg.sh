@@ -27,7 +27,7 @@ twist:
     x: 0.0
     y: 0.0
     z: 0.0
-reference_frame: 'world'" 
+reference_frame: 'world'" & sleep 1.5
 
 
 # Then, click corners
@@ -40,7 +40,7 @@ rostopic pub -1  /clicked_point geometry_msgs/PointStamped "header:
 point:
   x: 146.8
   y: 233.7
-  z: 0.0" 
+  z: 0.0" & sleep 0.5
 rostopic pub -1 /clicked_point geometry_msgs/PointStamped "header:
   seq: 0
   stamp:
@@ -50,7 +50,7 @@ rostopic pub -1 /clicked_point geometry_msgs/PointStamped "header:
 point:
   x: 8.8
   y: 6.1
-  z: 0.0" 
+  z: 0.0" & sleep 0.5
 rostopic pub -1 /clicked_point geometry_msgs/PointStamped "header:
   seq: 0
   stamp:
@@ -60,7 +60,7 @@ rostopic pub -1 /clicked_point geometry_msgs/PointStamped "header:
 point:
   x: 138.2
   y: 138.3
-  z: 0.0" 
+  z: 0.0" & sleep 0.5
 rostopic pub -1 /clicked_point geometry_msgs/PointStamped "header:
   seq: 0
   stamp:

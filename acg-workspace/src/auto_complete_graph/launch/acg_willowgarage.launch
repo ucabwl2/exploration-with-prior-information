@@ -4,7 +4,7 @@
 
 <node pkg="auto_complete_graph" type="acg_node_localization" name="acg_node_localization" output="screen" >
 
-	<param name="pause_for_testing" value="true" />
+	<param name="pause_for_testing" value="true" /> <!-- This causes the "optimize?" input request -->
 	<param name="use_gt_for_odom" value="false" />
 	<param name="export_iteration_count" value="true" />
 	<param name="add_noise_odometry" value="true" />
@@ -23,8 +23,7 @@
 	<param name="use_mcl_cov_to_find_prior_observed" value="false" />
 	<!--<param name="world_frame" value="/world" />-->
 	<param name="world_frame" value="/odom" />
-	<!--<param name="sensor_frame" value="/base_laser_link" />-->
-	<param name="sensor_frame" value="/velodyne" />
+	<param name="sensor_frame" value="/base_laser" /> <!-- was velodyne -->
 	<param name="map_frame" value="/odom" />
 	<!--<param name="map_frame" value="/world" />-->
 	<param name="covariance_to_find_links" value="false" />
