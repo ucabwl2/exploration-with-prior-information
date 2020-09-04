@@ -10,8 +10,8 @@
 rostopic pub -1 /gazebo/set_model_state gazebo_msgs/ModelState "model_name: '/'
 pose:
   position:
-    x: -5.0
-    y: 10.0
+    x: -1.0
+    y: 12.0
     z: 0.2
   orientation:
     x: 0.0
@@ -38,8 +38,8 @@ rostopic pub -1  /clicked_point geometry_msgs/PointStamped "header:
     nsecs: 0
   frame_id: 'odom'
 point:
-  x: 146.8
-  y: 233.7
+  x: 146.5
+  y: 233.8
   z: 0.0" & sleep 0.5
 rostopic pub -1 /clicked_point geometry_msgs/PointStamped "header:
   seq: 0
@@ -48,8 +48,8 @@ rostopic pub -1 /clicked_point geometry_msgs/PointStamped "header:
     nsecs: 0
   frame_id: 'odom'
 point:
-  x: 8.8
-  y: 6.1
+  x: 5.0
+  y: 3.9
   z: 0.0" & sleep 0.5
 rostopic pub -1 /clicked_point geometry_msgs/PointStamped "header:
   seq: 0
@@ -58,8 +58,8 @@ rostopic pub -1 /clicked_point geometry_msgs/PointStamped "header:
     nsecs: 0
   frame_id: 'odom'
 point:
-  x: 138.2
-  y: 138.3
+  x: 138.0
+  y: 138.1
   z: 0.0" & sleep 0.5
 rostopic pub -1 /clicked_point geometry_msgs/PointStamped "header:
   seq: 0
@@ -68,6 +68,6 @@ rostopic pub -1 /clicked_point geometry_msgs/PointStamped "header:
     nsecs: 0
   frame_id: 'odom'
 point:
-  x: 8.5
-  y: -7.9
+  x: 4.6
+  y: -10.5
   z: 0.0" 

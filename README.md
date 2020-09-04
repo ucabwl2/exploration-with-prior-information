@@ -42,23 +42,37 @@ If you are missing `pcap.h` you'll need to install the libpcap library
 sudo apt install libpcap-dev
 ```
 
-# Running ACG with Husky in the Willow Garage map
+<!-- # Running ACG with Husky in the Willow Garage map -->
+<!-- 1. Start a roscore -->
+<!-- 2. `rosparam set use_sim_time true` -->
+<!-- 2. `roslaunch auto_complete_graph husky_publisher.launch` -->
+<!-- 3. `roslaunch auto_complete_graph acg_willowgarage.launch` to start -->
+<!--    ACG with an excerpt of the willowgarage map as the prior -->
+<!-- 4. `rosrun rviz rviz -d ~/.rviz/acg-willow-husky.rviz`  -->
+<!-- 5. `roslaunch auto_complete_graph husky_mywillow.launch` to start Gazebo with a Husky at -->
+<!--    Willow Garage -->
+<!-- 6. `rosrun auto_complete_graph click-husky-willow-acg.sh` to move the -->
+<!--    Husky to a known position and to send clicks to initiate ACG.  -->
+<!-- 7. `roslaunch auto_complete_graph  exploration_demo-acg.launch` -->
+<!-- 8. `rosrun auto_complete_graph click-husky-willow-explore.sh` to set -->
+<!--    up exploration bounds and start exploring -->
+<!-- 9. Now the robot will roam around exploring, and ACG will be running. BUT, there is still some conflict with tfs :-O Switching to -->
+<!--    `explore_lite` is likely the better option :-C -->
+<!-- 8. If there is trouble with tfs and timestamps, try killing all launch -->
+<!--    files, `rosparam set   use_sim_time true` and restart from point 3. -->
+
+# Running ACG and explore_lite with Husky in the Willow Garage map
 1. Start a roscore
 2. `rosparam set use_sim_time true`
-2. `roslaunch auto_complete_graph husky_publisher.launch`
-3. `roslaunch auto_complete_graph acg_willowgarage.launch` to start
-   ACG with an excerpt of the willowgarage map as the prior
-4. `rosrun rviz rviz -d ~/.rviz/acg-willow-husky.rviz` 
-5. `roslaunch auto_complete_graph husky_mywillow.launch` to start Gazebo with a Husky at
-   Willow Garage
-6. `rosrun auto_complete_graph click-husky-willow-acg.sh` to move the
-   Husky to a known position and to send clicks to initiate ACG. 
-7. `roslaunch auto_complete_graph  exploration_demo-acg.launch`
-8. `rosrun auto_complete_graph click-husky-willow-explore.sh` to set
-   up exploration bounds and start exploring
-9. Now the robot will roam around exploring, and ACG will be running. BUT, there is still some conflict with tfs :-O Switching to
-   `explore_lite` is likely the better option :-C
-8. If there is trouble with tfs and timestamps, try killing all launch
+3. `roslaunch auto_complete_graph husky_publisher.launch`
+4. `roslaunch auto_complete_graph acg_willowgarage.launch` to start ACG with an excerpt of the willowgarage map as the prior
+6. `rosrun rviz rviz -d ~/.rviz/acg-willow-husky.rviz` 
+7. `roslaunch auto_complete_graph husky_mywillow.launch` to start  Gazebo with a Husky at    Willow Garage
+8. `rosrun auto_complete_graph click-husky-willow-acg.sh` to move the Husky to a known position and to send clicks to initiate ACG.
+9. `roslaunch husky_navigation move_base_mapless_demo.launch`
+10. `rosrun explore_lite explore _costmap_topic:=/move_base/global_costmap/costmap` to start explore_lite
+12. Now the robot will roam around exploring, and ACG will be running. BUT, there is still some conflict with tfs >:-(
+13. If there is trouble with tfs and timestamps, try killing all launch
    files, `rosparam set   use_sim_time true` and restart from point 3.
 
 

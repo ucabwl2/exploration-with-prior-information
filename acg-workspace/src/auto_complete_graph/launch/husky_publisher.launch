@@ -4,8 +4,9 @@
 <!--<node pkg="velodyne_pointcloud" type="cloud_node" name="convert_veloscans">
 <param name="calibration" value="$(find ndt_fuser)/launch/velo32.yaml" />
 </node>-->
-	
-<!-- <node pkg="tf" type="static_transform_publisher" name="world_odom_frame" args="0 0 0 0 0 0 /world /odom 10"/> -->
+
+<node pkg="tf" type="static_transform_publisher" name="map_world_frame" args="0 0 0 0 0 0 /map /world 10"/> 
+<node pkg="tf" type="static_transform_publisher" name="world_odom_frame" args="0 0 0 0 0 0 /world /odom 10"/> 
 <!-- <node pkg="tf" type="static_transform_publisher" name="world_laser_frame_frame" args="0 0 0 3.14159 0 0 /base_link /velodyne_tmp 10"/> -->
 	
 <!-- //Launch basement bag file !!!!!-->
@@ -66,7 +67,7 @@
 	  
       <param name="init_pose_tf" value="true" />
       <param name="robot_frame" value="/base_link" />
-      <param name="world_frame" value="/world" /> 
+      <param name="world_frame" value="/world" />  <!-- don't use /map because that makes a self-loop in the tf tree -->
       <param name="laser_frame_id" value="/base_laser" /> <!-- was   /velodyne -->
 
       <param name="matchLaser" value="true" />

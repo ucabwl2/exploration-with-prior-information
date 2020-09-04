@@ -4,7 +4,7 @@
 
 <node pkg="auto_complete_graph" type="acg_node_localization" name="acg_node_localization" output="screen" >
 
-	<param name="pause_for_testing" value="true" /> <!-- This causes the "optimize?" input request -->
+	<param name="pause_for_testing" value="false" /> <!-- This causes the "optimize?" input request. Was /true -->
 	<param name="use_gt_for_odom" value="false" />
 	<param name="export_iteration_count" value="true" />
 	<param name="add_noise_odometry" value="true" />

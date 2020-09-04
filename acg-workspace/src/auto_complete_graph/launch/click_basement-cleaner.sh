@@ -15,7 +15,7 @@ rostopic pub -1  /clicked_point geometry_msgs/PointStamped "header:
 point:
   x: -26.48
   y: 6.42
-  z: 0.0" &
+  z: 0.0" & sleep 0.5
 rostopic pub -1 /clicked_point geometry_msgs/PointStamped "header:
   seq: 0
   stamp:
@@ -25,7 +25,7 @@ rostopic pub -1 /clicked_point geometry_msgs/PointStamped "header:
 point:
   x: 3.77
   y: -53.67
-  z: 0.0" &
+  z: 0.0" & sleep 0.5
 rostopic pub -1 /clicked_point geometry_msgs/PointStamped "header:
   seq: 0
   stamp:
@@ -35,7 +35,7 @@ rostopic pub -1 /clicked_point geometry_msgs/PointStamped "header:
 point:
   x: -22.21
   y: -2.23
-  z: 0.0" &
+  z: 0.0" & sleep 0.5
 rostopic pub -1 /clicked_point geometry_msgs/PointStamped "header:
   seq: 0
   stamp:
